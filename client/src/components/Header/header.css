@@ -1,0 +1,57 @@
+/* header.css */
+
+/* Styling for the header */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between; /* Align items to the start and end of the header */
+}
+
+/* Styling for the headline */
+h1 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
+/* Styling for the navigation */
+nav {
+  display: flex;
+  justify-content: flex-end; /* Align navigation links to the right */
+  align-items: center;
+}
+
+/* Styling for the navigation links */
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin-left: 1rem; /* Adjust margin to create space between links */
+  position: relative; /* Position relative for absolutely positioning the underline */
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  position: relative; /* Required for pseudo-element positioning */
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; /* Adjust as needed */
+  right: 0; /* Position the underline at the right side */
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  background-color: #fff;
+  transition: width 0.3s ease; /* Transition for smooth animation */
+}
+
+nav a:hover::after {
+  width: 100%; /* Slide the underline to 100% width on hover */
+}

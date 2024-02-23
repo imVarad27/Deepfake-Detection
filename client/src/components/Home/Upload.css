@@ -1,0 +1,78 @@
+/* Upload.css */
+
+/* Container styling */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Main heading styling */
+.sub-headline {
+  font-size: 1.5rem; /* Adjust font size as needed */
+  color: #666; /* Set text color */
+  margin-bottom: 2rem; /* Add spacing below the sub-headline */
+  text-align: center; /* Center align text */
+}
+.main-heading {
+  font-family: "Arial", sans-serif; /* Use a specific font family */
+  font-size: 3rem; /* Increase font size for emphasis */
+  font-weight: bold; /* Use a bold font weight for prominence */
+  color: #333; /* Set text color */
+  margin-bottom: 2rem; /* Add space below the heading */
+  text-align: center;
+  line-height: 1.2; /* Adjust line height for better readability */
+  letter-spacing: 0.05em; /* Add slight letter spacing for clarity */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle text shadow for depth */
+}
+
+/* Upload component styling */
+.upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input file styling */
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center;
+}
+
+.preview {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add transition for smoother hover effect */
+}
+
+button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
