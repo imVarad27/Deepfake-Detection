@@ -2,11 +2,12 @@
 
 /* Styling for the header */
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   padding: 1rem;
   display: flex;
   justify-content: space-between; /* Align items to the start and end of the header */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Styling for the headline */
@@ -36,20 +37,13 @@ nav li {
 }
 
 nav a {
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   position: relative; /* Required for pseudo-element positioning */
+  font-size: 1.2rem;
 }
-
-nav a::after {
-  content: "";
-  position: absolute;
-  bottom: -2px; /* Adjust as needed */
-  right: 0; /* Position the underline at the right side */
-  width: 0;
-  height: 2px; /* Thickness of the underline */
-  background-color: #fff;
-  transition: width 0.3s ease; /* Transition for smooth animation */
+nav a:hover {
+  color: #ff0000; /* Change text color to red on hover */
 }
 
 nav a:hover::after {

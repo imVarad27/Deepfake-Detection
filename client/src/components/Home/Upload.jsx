@@ -1,5 +1,3 @@
-// Upload.jsx
-
 import React, { useState } from "react";
 
 const Upload = () => {
@@ -22,12 +20,26 @@ const Upload = () => {
     }
   };
 
+  const handleDeselect = () => {
+    setFile(null);
+    setPreview(null);
+  };
+
   return (
     <div className="upload-container">
+      {file && (
+        <button className="close-button" onClick={handleDeselect}>
+          X
+        </button>
+      )}
       <h2>Upload Image or Video</h2>
       <form>
-        <input type="file" onChange={handleChange} />
+        <label htmlFor="file-upload" className="upload-button">
+          Choose File
+        </label>
+        <input type="file" id="file-upload" onChange={handleChange} style={{ display: "none" }} />
       </form>
+      {file && <p>Selected File: {file.name}</p>}
       {preview && (
         <div className="preview-container">
           {file.type.startsWith("image") ? (

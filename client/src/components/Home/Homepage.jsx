@@ -5,6 +5,7 @@ import Upload from "./Upload";
 import "./Upload.css";
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
+import Info from "../Information/info";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         Check your image/video real or fake with incredible accuracy.
       </h3>
       <Upload />
+      <Info />
       <Footer />
     </div>
   );
