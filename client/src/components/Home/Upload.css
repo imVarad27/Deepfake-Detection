@@ -46,6 +46,7 @@
   color: #ffffff; /* White text color */
   border: none;
   border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
@@ -53,12 +54,7 @@
 .upload-button:hover {
   background-color: #cc0000; /* Darker red background color on hover */
 }
-/* Upload.css */
 
-/* Close button styling */
-/* Upload.css */
-
-/* Close button styling */
 .close-button {
   position: absolute;
   top: 10px;
@@ -69,26 +65,23 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-  z-index: 1; /* Ensure the button appears above other content */
+  transition: background-color 0.3s ease;
+  z-index: 1;
 }
 
 .close-button:hover {
-  background-color: #ffffff; /* Darker red background color on hover */
+  background-color: #969696;
 }
 
-/* Upload container styling */
 .upload-container {
-  position: relative; /* Ensure relative positioning for absolute child elements */
+  position: relative;
 }
 
-/* Form styling */
 form {
   display: flex;
   flex-direction: column;
 }
 
-/* Input file styling */
 input[type="file"] {
   width: 100%;
   padding: 10px;
@@ -106,7 +99,6 @@ input[type="file"] {
   height: auto;
 }
 
-/* Button styling */
 button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -114,9 +106,9 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Add transition for smoother hover effect */
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3; /* Change background color on hover */
+  background-color: #0056b3;
 }

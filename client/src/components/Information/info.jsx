@@ -22,11 +22,11 @@ const Info = () => {
       </div>
       <div className="info-box">
         <h2>What our website checks</h2>
-        <p>
-          Our website checks for the authenticity of images and videos to
-          identify whether they are deepfakes or not.
-        </p>
-        <span className="checkmark">&#10004;</span>
+        <ul>
+          <li>Authenticity of images</li>
+          <li>Authenticity of videos</li>
+          <li>Identification of deepfakes</li>
+        </ul>
       </div>
     </div>
   );
