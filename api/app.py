@@ -10,8 +10,28 @@ from torchvision import transforms
 import cv2
 from torch.utils.data.dataset import Dataset
 import face_recognition
+from fastapi.middleware.cors import CORSMiddleware
+import tensorflow as tf
+import os
+import glob
+
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",  # Add your frontend URL here
+]
+
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 
 class Model(nn.Module):
@@ -89,8 +109,49 @@ def im_convert(tensor):
     # cv2.imwrite('./2.png',image*255)
     return image
 
+def get_accurate_model(sequence_length):
+    model_name = []
+    sequence_model = []
+    final_model = ""
+    # Define the directory where your models are stored
+    models_directory = "D:\\Deepfake-Detection\\models"
+    list_models = glob.glob(os.path.join(models_directory, "*.pt"))
+    for i in list_models:
+        model_name.append(os.path.basename(i))
+    for i in model_name:
+        try:
+            seq = i.split("_")[3]
+            if (int(seq) == sequence_length):
+                sequence_model.append(i)
+        except:
+            pass
 
-async def prediction1(model, img, path='D:\\Deepfake-Detection\\api\\model_85.pt'):
+    if len(sequence_model) > 1:
+        accuracy = []
+        for i in sequence_model:
+            acc = i.split("_")[1]
+            accuracy.append(acc)
+        max_index = accuracy.index(max(accuracy))
+        final_model = sequence_model[max_index]
+    else:
+        final_model = sequence_model[0]
+    return final_model
+
+def get_sequence_length(video_path):
+    # Open the video file
+    video_capture = cv2.VideoCapture(video_path)
+    
+    # Initialize frame count
+    frame_count = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    
+    # Release the video capture object
+    video_capture.release()
+    
+    # Return the number of frames as the sequence length
+    return frame_count
+
+
+async def prediction1(model, img, path='D:\\Deepfake-Detection\\api\\model_86.pt'):
     fmap, logits = model(img.to('cpu'))
     params = list(model.parameters())
     weight_softmax = model.linear1.weight.detach().cpu().numpy()
@@ -120,28 +181,84 @@ async def prediction1(model, img, path='D:\\Deepfake-Detection\\api\\model_85.pt
 async def predict(file: UploadFile = File(...)):
     try:
         # Save the uploaded file to disk
+        upload_dir = "D:\\Deepfake-Detection\\Data\\Video"
+
+        # Create the directory if it doesn't exist
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+
+        # Save the uploaded video file to a temporary location on the server
+        file_path = os.path.join(upload_dir, file.filename)
         with open(file.filename, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
         # Preprocess the video frames
+        
+        sequence_length = get_sequence_length(file.filename)
         train_transforms = transforms.Compose([
             transforms.ToPILImage(),
             transforms.Resize((im_size, im_size)),
             transforms.ToTensor(),
             transforms.Normalize(mean, std)])
-        video_dataset = ValidationDataset([file.filename], sequence_length=20, transform=train_transforms)
+        video_dataset = ValidationDataset([file.filename], sequence_length=sequence_length, transform=train_transforms)
         model = Model(2)
-        path_to_model = 'D:\\Deepfake-Detection\\api\\model_85.pt'  # Adjust path as needed
-        model.load_state_dict(torch.load(path_to_model, map_location=torch.device('cpu')))
+        final_model = get_accurate_model(sequence_length)
+        print(f"Using model: {final_model}")
+        models_directory="D:\\Deepfake-Detection\\models"
+        model_path = os.path.join(models_directory, final_model)
+        model = torch.load(model_path,map_location=torch.device("cpu"))
         model.eval()
         # Make prediction
         prediction = await prediction1(model, video_dataset[0], './')
+        print(prediction[0])
         if prediction[0] == 1:
             return {"prediction": "REAL", "Confidence": prediction[1]}
         else:
             return {"prediction": "FAKE", "Confidence": prediction[1]}
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
+    
+    
+model = tf.keras.models.load_model('D:\\Deepfake-Detection\\api\\model_88.keras')
+
+# Function for image preprocessing
+def preprocess_image(image):
+    # Resize the image to the input size expected by the model
+    input_size = (224, 224)  # Adjust based on your model's input size
+    image = cv2.resize(image, input_size)
+
+    # Normalize pixel values to be between 0 and 1
+    image = image / 255.0
+
+    # Expand dimensions to match the input shape expected by the model
+    image = np.expand_dims(image, axis=0)
+
+    return image
+
+@app.post("/predict_image")
+async def predict_image(image_file: UploadFile = File(...)):
+    # Check if the uploaded file is an image
+    
+
+    # Read image file
+    contents = await image_file.read()
+    nparr = np.frombuffer(contents, np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    # Preprocess the image
+    processed_image = preprocess_image(image)
+
+    # Make predictions
+    predictions = model.predict(processed_image)
+
+    # Get the predicted label directly
+    predicted_label = "Fake" if predictions[0, 0] > 0.5 else "Real"
+    
+    return {
+        "prediction": predicted_label,
+        "predicted_probability_fake": float(predictions[0, 0]),
+        "predicted_probability_real": float(1 - predictions[0, 0])
+    }
 
 
 if __name__ == '__main__':

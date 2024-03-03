@@ -3,12 +3,13 @@ import React, { useState } from "react";
 const Upload = () => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [prediction, setPrediction] = useState(null);
+  const [predictions, setPredictions] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-    console.log(selectedFile);
 
     // Generate preview URL for images or videos
     if (selectedFile) {
@@ -25,23 +26,28 @@ const Upload = () => {
   const handleDeselect = () => {
     setFile(null);
     setPreview(null);
-    setPrediction(null);
+    setPredictions(null);
+    setError(null);
   };
 
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
-    console.log(formData);
+    setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/predict", {
+      const url = file.type.startsWith("image")
+        ? "http://localhost:8000/predict_image"
+        : "http://localhost:8000/predict";
+      const response = await fetch(url, {
         method: "POST",
         body: formData,
       });
       const data = await response.json();
-      console.log(data);
-      setPrediction(data.predictions); // Update state with predictions
+      setPredictions(data);
+      setLoading(false);
     } catch (error) {
-      console.error("Error:", error);
+      setError("An error occurred while making the prediction.");
+      setLoading(false);
     }
   };
 
@@ -77,16 +83,15 @@ const Upload = () => {
           )}
         </div>
       )}
-      {prediction && (
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      {predictions && (
         <div>
           <h3>Prediction Result:</h3>
-          <ul>
-            {prediction.map((pred, index) => (
-              <li
-                key={index}
-              >{`Class: ${pred[0]}, Confidence: ${pred[1]}%`}</li>
-            ))}
-          </ul>
+          <p>
+            Class: {predictions.prediction}, Confidence:{" "}
+            {predictions.Confidence}%
+          </p>
         </div>
       )}
       {file && <button onClick={handleUpload}>Predict</button>}

@@ -1,12 +1,41 @@
 import React from "react";
-//import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./components/Header/header";
-import Footer from "./components/Footer/footer";
+import { useState, useCallback } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home/Homepage";
-import About from "./components/About/About";
+import Login from "./components/Login-Register/Login";
+import SignUp from "./components/Login-Register/Signup";
+import Header from "./components/Header/header";
+
+import "./App.css";
 
 const App = () => {
-  return <Home />;
+  const user = useSelector((state) => state.user);
+  if (user) {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route path="/home" element={<Home />} />
+        </Routes>
+        <Navigate replace to="/home" />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </div>
+      </>
+    );
+  }
 };
 
 export default App;
