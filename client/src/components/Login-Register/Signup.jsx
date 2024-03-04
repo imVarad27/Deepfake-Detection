@@ -216,7 +216,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/register", {
+      const response = await fetch("http://localhost:8001/register", {
         method: "POST",
         body: JSON.stringify({
           first_name: first_name,

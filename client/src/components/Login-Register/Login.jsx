@@ -86,7 +86,7 @@ const Login = () => {
     }
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch("http://localhost:8001/login", {
         method: "POST",
         body: JSON.stringify({
           email: emailRef,

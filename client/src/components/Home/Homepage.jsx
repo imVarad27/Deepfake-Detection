@@ -15,7 +15,6 @@ const Home = () => {
         Check your image/video real or fake with incredible accuracy.
       </h3>
       <Upload />
-
       <Info />
       <Footer />
     </div>

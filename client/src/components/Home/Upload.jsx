@@ -6,6 +6,7 @@ const Upload = () => {
   const [predictions, setPredictions] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [faceDetectionError, setFaceDetectionError] = useState(null); // State for face detection error message
 
   const handleChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -28,6 +29,7 @@ const Upload = () => {
     setPreview(null);
     setPredictions(null);
     setError(null);
+    setFaceDetectionError(null); // Clear face detection error message
   };
 
   const handleUpload = async () => {
@@ -37,16 +39,36 @@ const Upload = () => {
     try {
       const url = file.type.startsWith("image")
         ? "http://localhost:8000/predict_image"
-        : "http://localhost:8000/predict";
+        : "http://localhost:8000/upload_video/";
+
       const response = await fetch(url, {
         method: "POST",
         body: formData,
       });
-      const data = await response.json();
-      setPredictions(data);
+      if (response.ok) {
+        const data = await response.json();
+        if (file.type.startsWith("image")) {
+          if (data.error) {
+            // Check if face detection error message is received
+            setFaceDetectionError(data.error); // Set face detection error message
+          } else {
+            setFaceDetectionError(null); // Clear face detection error message
+            setPredictions({
+              prediction: data.prediction,
+              realProbability: parseFloat(
+                data.predicted_probability_real
+              ).toFixed(2),
+              fakeProbability: parseFloat(
+                data.predicted_probability_fake
+              ).toFixed(2),
+            });
+          }
+        } else {
+          // Handle predictions for videos
+        }
+      }
       setLoading(false);
     } catch (error) {
-      setError("An error occurred while making the prediction.");
       setLoading(false);
     }
   };
@@ -83,18 +105,37 @@ const Upload = () => {
           )}
         </div>
       )}
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      {loading && <p className="loading-text">Loading...</p>}
+      {error && <p className="error-text">Error: {error}</p>}
+      {faceDetectionError && ( // Display face detection error message
+        <p className="error-text">{faceDetectionError}</p>
+      )}
       {predictions && (
         <div>
-          <h3>Prediction Result:</h3>
+          <h3 className="prediction-heading">Prediction Result:</h3>
           <p>
-            Class: {predictions.prediction}, Confidence:{" "}
-            {predictions.Confidence}%
+            <span className="prediction-label">Class:</span>{" "}
+            <span className="prediction-value">{predictions.prediction}</span>
+          </p>
+          <p>
+            <span className="prediction-label">Probability of Real:</span>{" "}
+            <span className="prediction-value">
+              {predictions.realProbability}
+            </span>
+          </p>
+          <p>
+            <span className="prediction-label">Probability of Fake:</span>{" "}
+            <span className="prediction-value">
+              {predictions.fakeProbability}
+            </span>
           </p>
         </div>
       )}
-      {file && <button onClick={handleUpload}>Predict</button>}
+      {file && (
+        <button className="predict-button" onClick={handleUpload}>
+          Predict
+        </button>
+      )}
     </div>
   );
 };

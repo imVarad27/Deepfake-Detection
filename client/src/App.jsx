@@ -7,6 +7,7 @@ import Home from "./components/Home/Homepage";
 import Login from "./components/Login-Register/Login";
 import SignUp from "./components/Login-Register/Signup";
 import Header from "./components/Header/header";
+import About from "./components/About/About";
 
 import "./App.css";
 
@@ -28,6 +29,7 @@ const App = () => {
         <div>
           <Header />
           <Routes>
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="*" element={<Navigate to="/login" />} />

@@ -49,3 +49,21 @@ nav a:hover {
 nav a:hover::after {
   width: 100%; /* Slide the underline to 100% width on hover */
 }
+
+.logout-button {
+  background: white;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  color: #000000;
+  text-decoration: none;
+  position: relative; /* Required for pseudo-element positioning */
+  font-size: 1.2rem;
+}
+.logout-button:hover {
+  background: white;
+  color: #ff0000; /* Change text color to red on hover */
+}
