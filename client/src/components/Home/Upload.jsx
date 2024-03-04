@@ -53,6 +53,7 @@ const Upload = () => {
             setFaceDetectionError(data.error); // Set face detection error message
           } else {
             setFaceDetectionError(null); // Clear face detection error message
+
             setPredictions({
               prediction: data.prediction,
               realProbability: parseFloat(
@@ -64,7 +65,23 @@ const Upload = () => {
             });
           }
         } else {
-          // Handle predictions for videos
+          if (data.predictions[0][0] === 0) {
+            const test = Math.round(data.predictions[0][1] * 100) / 100;
+            console.log(test);
+            setPredictions({
+              prediction: "Fake",
+              fakeProbability: Math.round(data.predictions[0][1] * 100) / 100,
+              realProbability:
+                100 - Math.round(data.predictions[0][1] * 100) / 100,
+            });
+          } else {
+            setPredictions({
+              prediction: "Real",
+              realProbability: Math.round(data.predictions[0][1] * 100) / 100,
+              fakeProbability:
+                100 - Math.round(data.predictions[0][1] * 100) / 100,
+            });
+          }
         }
       }
       setLoading(false);

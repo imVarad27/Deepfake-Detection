@@ -154,7 +154,7 @@ def allowed_video_file(filename):
 async def upload_video_file(request: Request):
     form_data = await request.form()
     file = form_data['file']
-    sequence_length = 60
+    sequence_length = 10
     #face_locations = face_recognition.face_locations(file)
     
     if not allowed_video_file(file.filename):
