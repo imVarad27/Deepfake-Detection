@@ -1,0 +1,11 @@
+api/model_88.keras
+models/model_84_acc_10_frames_final_data.pt
+models/model_87_acc_20_frames_final_data.pt
+models/model_89_acc_40_frames_final_data.pt
+models/model_90_acc_20_frames_FF_data.pt
+models/model_90_acc_60_frames_final_data.pt
+models/model_93_acc_100_frames_celeb_FF_data.pt
+models/model_95_acc_40_frames_FF_data.pt
+models/model_97_acc_60_frames_FF_data.pt
+models/model_97_acc_80_frames_FF_data.pt
+models/model_97_acc_100_frames_FF_data.pt
