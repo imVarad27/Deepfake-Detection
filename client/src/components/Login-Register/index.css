@@ -41,6 +41,7 @@ html,
   justify-content: center;
   flex-direction: column;
   text-align: left;
+  background-image: url("D:\Deepfake-Detection\images\_6e0055eb-4071-4891-8896-bc390204f9ae.jpeg");
 }
 .auth-inner {
   width: 450px;
