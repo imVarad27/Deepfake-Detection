@@ -111,6 +111,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <>
       {error && (
@@ -169,6 +170,12 @@ const Login = () => {
                   <button className="btn btn-primary">
                     <Link to="/signup" className="g-grid">
                       Signup
+                    </Link>
+                  </button>
+
+                  <button className="btn btn-link">
+                    <Link to="/forgotPass" className="btn btn-link">
+                      Forgot Password
                     </Link>
                   </button>
                 </div>

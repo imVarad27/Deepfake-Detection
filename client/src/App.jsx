@@ -8,6 +8,7 @@ import Login from "./components/Login-Register/Login";
 import SignUp from "./components/Login-Register/Signup";
 import Header from "./components/Header/header";
 import About from "./components/About/About";
+import ForgotPass from "./components/Login-Register/ForgotPass";
 
 import "./App.css";
 
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgotPass" element={<ForgotPass />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
