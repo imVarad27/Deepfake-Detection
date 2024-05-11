@@ -4,7 +4,7 @@ import Toast from "react-bootstrap/Toast";
 
 import "./index.css";
 
-const SignUp = () => {
+const ResetPassword = () => {
   const [redirect, setRedirect] = useState(false);
   const [success, setSuccess] = useState();
   const [error, setError] = useState();
@@ -22,6 +22,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false); // State to track if OTP has been sent
+  const [otpVerified, setOtpVerified] = useState(false); // State to track if OTP has been verified
 
   const isValidEmail = (email) => {
     if (email !== undefined) {
@@ -111,6 +112,16 @@ const SignUp = () => {
     }
   }, [password]);
 
+  useEffect(() => {
+    if (otpVerified) {
+      setShowPasswordValidation(false);
+      setShowConfirmPasswordValidation(false);
+    } else {
+      setShowPasswordValidation(true);
+      setShowConfirmPasswordValidation(true);
+    }
+  }, [otpVerified]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -146,12 +157,6 @@ const SignUp = () => {
       setShowPasswordValidation(true);
       error = true;
     }
-
-    if (email === undefined || email === "") {
-      setEmailValidation("Please Enter Email");
-      setShowEmailValidation(true);
-      error = true;
-    }
     if (password === undefined || password === "") {
       setPasswordValidation(new Array("Please Enter Password"));
       setShowPasswordValidation(true);
@@ -162,7 +167,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8001/forgotPass", {
+      const response = await fetch("http://localhost:8001/ResetPass", {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -207,47 +212,9 @@ const SignUp = () => {
           <div className="auth-wrapper">
             <div className="auth-inner">
               <form>
-                <h3>Forgot Password!</h3>
+                <h3>Enter Password!</h3>
                 <div className="mb-3">
-                  <label>Email address</label>
-                  <input
-                    type="email"
-                    className={`form-control ${
-                      showEmailValidation ? "invalid-input" : ""
-                    }`}
-                    placeholder="Enter email"
-                    name="email"
-                    value={email}
-                    onChange={handleChange}
-                  />
-                  {showEmailValidation && emailValidation && (
-                    <p className="error-msg">{emailValidation}</p>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label>OTP</label>
-                  <input
-                    type="text"
-                    className={`form-control ${
-                      showOtpValidation ? "invalid-input" : ""
-                    }`}
-                    placeholder="Enter OTP"
-                    name="otp"
-                    value={otp}
-                    onChange={handleChange}
-                    disabled={!otpSent} // Disable OTP field if OTP has not been sent
-                  />
-                  {showOtpValidation && otpValidation && (
-                    <p className="error-msg">{otpValidation}</p>
-                  )}
-                  {!otpSent && ( // Display Get OTP button if OTP has not been sent
-                    <button className="btn btn-primary mt-2" onClick={sendOtp}>
-                      Get OTP
-                    </button>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label>Password</label>
+                  <label>New Password</label>
                   <input
                     type="password"
                     className={`form-control ${
@@ -257,7 +224,7 @@ const SignUp = () => {
                     name="password"
                     onChange={handleChange}
                     value={password}
-                    disabled={!otpSent} // Disable password field if OTP has not been sent
+                    // Disable password field if OTP has not been sent or OTP is not verified
                   />
                   {showPasswordValidation &&
                     passwordValidation &&
@@ -280,7 +247,7 @@ const SignUp = () => {
                     name="confirmPassword"
                     onChange={handleChange}
                     value={confirmPassword}
-                    disabled={!otpSent} // Disable confirm password field if OTP has not been sent
+                    // Disable confirm password field if OTP has not been sent or OTP is not verified
                   />
                   {showPasswordValidation &&
                     confirmPasswordValidation &&
@@ -297,7 +264,7 @@ const SignUp = () => {
                     type="submit"
                     className="btn btn-primary"
                     onClick={ButtonSubmitHandler}
-                    disabled={!otpSent} // Disable submit button if OTP has not been sent
+                    // Disable submit button if OTP has not been sent or OTP is not verified
                   >
                     Submit
                   </button>
@@ -314,4 +281,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default ResetPassword;
