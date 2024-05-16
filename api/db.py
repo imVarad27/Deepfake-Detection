@@ -1,7 +1,9 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import random
 import smtplib
 import ssl
+import string
 from sqlalchemy import create_engine, MetaData, Table, select,insert
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,6 +42,27 @@ SENDER_EMAIL = 'rohitshetti132@gmail.com'
 
 import secrets
 
+# def generate_password():
+#     length = 10
+#     lower = string.ascii_lowercase
+#     upper = string.ascii_uppercase
+#     digits = string.digits
+#     special = '!@#$%^&*'
+    
+#     # Ensure the password contains at least one character from each category
+#     password = (
+#         random.choice(lower) +
+#         random.choice(upper) +
+#         random.choice(digits) +
+#         random.choice(special) +
+#         ''.join(random.choices(lower + upper + digits + special, k=length-4))
+#     )
+    
+#     # Shuffle the characters to make the password more random
+#     password = ''.join(random.sample(password, len(password)))
+    
+#     return password
+
 def generate_otp(length=4):
     if length <= 0:
         raise ValueError("Length must be greater than zero.")
@@ -67,6 +90,7 @@ def send_email(receiver_email, otp):
         server.ehlo()  # Can be omitted
         server.login(SMTP_USERNAME, SMTP_PASSWORD)
         server.sendmail(SENDER_EMAIL, receiver_email, message.as_string())
+        
 
 class User(BaseModel):
     first_name: str
@@ -145,7 +169,7 @@ async def send_otp(request: Request):
             )
             result = connection.execute(update_query)
 
-            return {"message": "OTP sent successfully"}
+            return {"detail": "OTP sent successfully"}
         else:
             raise HTTPException(status_code=400, detail="Email doesn't exist")
         
@@ -163,12 +187,35 @@ async def validate_otp(request: Request):
         if user:
             stored_otp = user["otp"]
             if str(stored_otp) == str(otp):
-                return {"message": "OTP is valid"}
+                return {"detail": "OTP is valid"}
             else:
                 raise HTTPException(status_code=400, detail="Invalid OTP")
         else:
             raise HTTPException(status_code=404, detail="Email not found")
+        
+@app.post("/resetpassword")
+async def forgot_pass(request: Request):
+    reset_data = await request.json()
+    email = reset_data.get("email")
+    new_password = reset_data.get("password")
+    
+    query = select([users]).where(users.columns.email == email)
+    with engine.connect() as connection:
+        result = connection.execute(query)
+        user = result.fetchone()
+        if user:
+            update_query = (
+                users.update()
+                .where(users.columns.email == email)
+                .values(password=new_password)
+            )
+            connection.execute(update_query)
+            return {"message": "Password reset successfully."}
+        else:
+            raise HTTPException(status_code=400, detail="Email not found in the database.")
 
+            
+    
 if __name__ == '__main__':
     import uvicorn
 

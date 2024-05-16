@@ -174,7 +174,7 @@ const Login = () => {
                   </button>
 
                   <button className="btn btn-link">
-                    <Link to="/forgotPass" className="btn btn-link">
+                    <Link to="/validate-otp" className="btn btn-link">
                       Forgot Password
                     </Link>
                   </button>

@@ -9,6 +9,7 @@ import SignUp from "./components/Login-Register/Signup";
 import Header from "./components/Header/header";
 import About from "./components/About/About";
 import ForgotPass from "./components/Login-Register/ForgotPass";
+import OtpValidationForm from "./components/Login-Register/OtpValidationForm";
 
 import "./App.css";
 
@@ -33,7 +34,8 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgotPass" element={<ForgotPass />} />
+            <Route path="/validate-otp" element={<OtpValidationForm />} />
+            <Route path="/resetpassword" element={<ForgotPass />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>

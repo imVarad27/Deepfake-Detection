@@ -145,7 +145,10 @@ const ResetPassword = () => {
   const ButtonSubmitHandler = async (e) => {
     e.preventDefault();
     let error = false;
-
+    if (password !== confirmPassword) {
+      setConfirmPasswordValidation("Passwords don't match");
+      return;
+    }
     if (!isValidEmail(email)) {
       setEmailValidation("Email is not valid");
       setShowEmailValidation(true);
@@ -158,7 +161,7 @@ const ResetPassword = () => {
       error = true;
     }
     if (password === undefined || password === "") {
-      setPasswordValidation(new Array("Please Enter Password"));
+      setPasswordValidation(["Please Enter Password"]);
       setShowPasswordValidation(true);
       error = true;
     }
@@ -167,7 +170,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8001/ResetPass", {
+      const response = await fetch("http://localhost:8001/resetpassword", {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -214,6 +217,22 @@ const ResetPassword = () => {
               <form>
                 <h3>Enter Password!</h3>
                 <div className="mb-3">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    className={`form-control ${
+                      showEmailValidation ? "invalid-input" : ""
+                    }`}
+                    placeholder="Enter email"
+                    name="email"
+                    onChange={handleChange}
+                    value={email}
+                  />
+                  {showEmailValidation && (
+                    <p className="error-msg">{emailValidation}</p>
+                  )}
+                </div>
+                <div className="mb-3">
                   <label>New Password</label>
                   <input
                     type="password"
@@ -224,7 +243,6 @@ const ResetPassword = () => {
                     name="password"
                     onChange={handleChange}
                     value={password}
-                    // Disable password field if OTP has not been sent or OTP is not verified
                   />
                   {showPasswordValidation &&
                     passwordValidation &&
@@ -247,24 +265,16 @@ const ResetPassword = () => {
                     name="confirmPassword"
                     onChange={handleChange}
                     value={confirmPassword}
-                    // Disable confirm password field if OTP has not been sent or OTP is not verified
                   />
-                  {showPasswordValidation &&
-                    confirmPasswordValidation &&
-                    confirmPasswordValidation.map((msg, index) => {
-                      return (
-                        <p className="error-msg" key={index}>
-                          {msg}
-                        </p>
-                      );
-                    })}
+                  {confirmPasswordValidation && (
+                    <p className="error-msg">{confirmPasswordValidation}</p>
+                  )}
                 </div>
                 <div className="d-grid">
                   <button
                     type="submit"
                     className="btn btn-primary"
                     onClick={ButtonSubmitHandler}
-                    // Disable submit button if OTP has not been sent or OTP is not verified
                   >
                     Submit
                   </button>
