@@ -1,0 +1,46 @@
+api/model_88.keras
+models/model_84_acc_10_frames_final_data.pt
+models/model_87_acc_20_frames_final_data.pt
+models/model_89_acc_40_frames_final_data.pt
+models/model_90_acc_20_frames_FF_data.pt
+models/model_90_acc_60_frames_final_data.pt
+models/model_93_acc_100_frames_celeb_FF_data.pt
+models/model_95_acc_40_frames_FF_data.pt
+models/model_97_acc_60_frames_FF_data.pt
+models/model_97_acc_80_frames_FF_data.pt
+models/model_97_acc_100_frames_FF_data.pt
+uploaded_file_1709571514.mp4
+uploaded_file_1709565805.mp4
+uploaded_file_1709565969.mp4
+uploaded_file_1709566388.mp4
+uploaded_file_1709571466.mp4
+
+Tested_Images
+*.h5
+*.keras
+.idea
+
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+node_modules/
+model_86.pt
+/client/node_modules/

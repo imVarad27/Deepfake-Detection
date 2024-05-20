@@ -1,0 +1,65 @@
+/* Info.css */
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.info-box {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  margin-right: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.info-box h2 {
+  color: #ff0000; /* Red color for headline */
+  font-weight: bold; /* Slightly bold font weight */
+}
+.info-box:last-child {
+  margin-right: 0;
+}
+
+.info-box h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.info-box p {
+  font-size: 1.2rem;
+}
+
+.checkmark {
+  font-size: 1.2rem;
+  color: green;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+/* Bullet points styling */
+.info-box ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.info-box li {
+  position: relative;
+  padding-left: 30px; /* Adjust padding as needed */
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.info-box li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px; /* Adjust width and height as needed */
+  height: 20px;
+  background-image: url("D:\Deepfake-Detection\images\tickmark.png"); /* Replace 'path/to/your/checkmark-image.png' with the path to your image */
+  background-size: contain; /* Ensure the image fits within the bullet point */
+  background-repeat: no-repeat; /* Prevent repetition of the image */
+}

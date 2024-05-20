@@ -1,0 +1,161 @@
+/* Upload.css */
+
+/* Container styling */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Main heading styling */
+.sub-headline {
+  font-size: 1.5rem; /* Adjust font size as needed */
+  color: #666; /* Set text color */
+  margin-bottom: 2rem; /* Add spacing below the sub-headline */
+  text-align: center; /* Center align text */
+}
+.main-heading {
+  font-family: "Arial", sans-serif; /* Use a specific font family */
+  font-size: 3rem; /* Increase font size for emphasis */
+  font-weight: bold; /* Use a bold font weight for prominence */
+  color: #333; /* Set text color */
+  margin-bottom: 2rem; /* Add space below the heading */
+  text-align: center;
+  line-height: 1.2; /* Adjust line height for better readability */
+  letter-spacing: 0.05em; /* Add slight letter spacing for clarity */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle text shadow for depth */
+}
+
+/* Upload component styling */
+.upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center align content */
+}
+
+/* Button styling */
+.upload-button {
+  padding: 20px 40px;
+  background-color: #ff0000; /* Red background color */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.upload-button:hover {
+  background-color: #cc0000; /* Darker red background color on hover */
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+  font-weight: bold;
+}
+
+.close-button:hover {
+  background-color: #ff0000;
+  color: white;
+}
+
+.upload-container {
+  position: relative;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.preview-container {
+  display: flex;
+  justify-content: center;
+}
+
+.preview {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.loading-text {
+  font-style: italic;
+  color: gray;
+}
+
+.error-text {
+  color: red;
+}
+
+.prediction-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.prediction-label {
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.prediction-value {
+  font-weight: normal;
+  margin-left: 5px;
+  color: #000000; /* or any color of your choice */
+}
+
+.predict-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.predict-button:hover {
+  background-color: #cc0000;
+}
+.flex-display {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
